@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Chessboard from 'chessboardjsx';
 import io from 'socket.io-client';
-
+import './Game.css'
 const socket = io('http://localhost:5000');
 
 const Game = () => {
@@ -49,20 +49,7 @@ const Game = () => {
           onDrop={(move) => handleMove(move)}
         />
       </div>
-      <div className="info">
-        <div className="history">
-          <h3>Move History</h3>
-          <ul>
-            {moveHistory.map((move, index) => (
-              <li key={index}>{move}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="status">
-          <h3>Game Status</h3>
-          <p>{gameStatus}</p>
-        </div>
-      </div>
+    
     </div>
   );
 };

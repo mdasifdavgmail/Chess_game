@@ -1,0 +1,34 @@
+.board {
+  margin-left: 30vw;
+}
+
+@media (max-width: 809px) and (min-width: 709px) {
+  .board {
+    margin-left: 10vw;
+    margin-right: 12vw;
+  }
+
+  .App {
+    text-align: center;
+  }
+}
+
+@media (max-width: 712px) and (min-width: 627px) {
+  .board {
+    margin-left: 5vw;
+  }
+
+  .App {
+    text-align: center;
+  }
+}
+
+@media (max-width: 625px) and (min-width: 300px) {
+  .board {
+    margin-left: 1vw;
+  }
+
+  .App {
+    text-align: center;
+  }
+}
