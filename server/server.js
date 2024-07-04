@@ -38,24 +38,29 @@ mongoose.connection.on('connected', () => {
 });
 
 let game = initializeGame(); 
+let eliminatedPieces = [];
 
 io.on('connection', (socket) => {
   console.log('Socket connected');
 
-  socket.on('getInitialGameState', async () => {
-    socket.emit('gameState', { boardState: game.fen(), moves: [], status: 'ongoing' });
+  socket.on('getInitialGameState', () => {
+    socket.emit('gameState', { boardState: game.fen(), moves: [], status: 'ongoing', eliminatedPieces });
   });
 
   socket.on('makeMove', async ({ move }, callback) => {
     console.log('Received move:', move);
 
-    const result = makeMove(game, move);
+    const { valid, fen, eliminatedPiece } = makeMove(game, move);
 
-    if (result.valid) {
-      io.emit('gameState', { boardState: result.fen, moves: ['move1', 'move2'], status: 'ongoing' });
+    if (valid) {
+      if (eliminatedPiece) {
+        eliminatedPieces.push(eliminatedPiece);
+      }
+
+      io.emit('gameState', { boardState: fen, moves: ['move1', 'move2'], status: 'ongoing', eliminatedPieces });
       callback({ success: true });
     } else {
-      callback({ error: result.error });
+      callback({ error: 'Invalid move' });
     }
   });
 

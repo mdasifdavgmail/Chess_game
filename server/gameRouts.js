@@ -24,20 +24,34 @@ router.post('/:gameId/move', authMiddleware, async (req, res) => {
     const gameId = req.params.gameId;
     const { move } = req.body;
 
-    
     const isValidMove = validateMove(move);
 
     if (!isValidMove) {
       return res.status(400).json({ message: 'Invalid move' });
     }
 
-    const updatedGame = await Game.findByIdAndUpdate(
-      gameId,
-      { $push: { moves: move } },
-      { new: true }
-    );
+    const game = await Game.findById(gameId);
+    if (!game) {
+      return res.status(404).json({ message: 'Game not found' });
+    }
 
-    res.json(updatedGame); 
+    const result = makeMove(game, move);
+
+    if (!result.valid) {
+      return res.status(400).json({ message: result.error });
+    }
+
+    game.boardState = result.fen;
+    await game.save();
+
+    io.emit('gameState', { 
+      boardState: result.fen, 
+      moves: game.moves || [], 
+      status: 'ongoing',
+      eliminatedPieces: result.eliminatedPieces
+    });
+
+    res.json({ success: true, eliminatedPieces: result.eliminatedPieces });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });

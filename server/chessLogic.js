@@ -8,13 +8,24 @@ function makeMove(game, move) {
   const moveResult = game.move({
     from: move.sourceSquare,
     to: move.targetSquare,
-    promotion: 'q' 
+    promotion: 'q'
   });
+
+  let eliminatedPiece = null;
+
+  
+  if (moveResult && moveResult.captured) {
+    eliminatedPiece = {
+      color: moveResult.color === 'w' ? 'black' : 'white',
+      piece: moveResult.captured
+    };
+  }
 
   if (moveResult) {
     return {
       valid: true,
-      fen: game.fen()
+      fen: game.fen(),
+      eliminatedPiece
     };
   } else {
     return {
