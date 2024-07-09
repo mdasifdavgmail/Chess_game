@@ -62,8 +62,21 @@ const Game = () => {
     }
   }, [gameState]);
 
+  const eliminatedWhitePieces = eliminatedPieces.filter(piece => piece.color === 'white');
+  const eliminatedBlackPieces = eliminatedPieces.filter(piece => piece.color === 'black');
+
   return (
-    <div className="game">
+    <div className="game-container">
+      <div className="eliminated-pieces">
+        <h1>Eliminated White Pieces</h1>
+        <ul>
+          {eliminatedWhitePieces.map((piece, index) => (
+            <li key={index} className={`piece ${piece.color}`}>
+              {pieceEmojis[piece.color][piece.piece]}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="board">
         <Chessboard
           position={gameState ? gameState.boardState : 'start'}
@@ -72,11 +85,11 @@ const Game = () => {
         />
       </div>
       <div className="eliminated-pieces">
-        <h3>Eliminated Pieces</h3>
+        <h1>Eliminated Black Pieces</h1>
         <ul>
-          {eliminatedPieces.map((piece, index) => (
-            <li key={index} className={piece.color}>
-              {pieceEmojis[piece.color][piece.piece]} {piece.color}
+          {eliminatedBlackPieces.map((piece, index) => (
+            <li key={index} className={`piece ${piece.color}`}>
+              {pieceEmojis[piece.color][piece.piece]}
             </li>
           ))}
         </ul>
