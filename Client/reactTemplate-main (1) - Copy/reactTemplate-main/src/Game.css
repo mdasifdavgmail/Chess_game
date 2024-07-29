@@ -3,13 +3,12 @@
   justify-content: center;
   align-items: flex-start;
   padding: 20px;
+  flex-wrap: wrap;
 }
-
 
 .board {
   margin: 0 10px;
 }
-
 
 .eliminated-pieces {
   width: 120px;
@@ -19,7 +18,6 @@
   font-size: 1em; 
   margin-bottom: 10px;
 }
-
 
 .piece {
   font-size: 2em; 
@@ -32,7 +30,6 @@
   margin: 0;
 }
 
-
 .white-pieces {
   margin-right: 10px; 
 }
@@ -41,9 +38,60 @@
   margin-left: 10px;
 }
 
-
-
 .piece {
   font-size: 4em; 
   margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .game-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .board {
+    margin: 10px 0;
+    width: 100%; 
+  }
+
+  .eliminated-pieces {
+    width: 100%;
+    max-width: none; 
+  }
+
+  .eliminated-pieces h1 {
+    font-size: 0.9em;
+  }
+
+  .piece {
+    font-size: 3em;
+  }
+
+  .white-pieces, .black-pieces {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .white-pieces {
+    justify-content: flex-start;
+  }
+
+  .black-pieces {
+    justify-content: flex-end; 
+  }
+
+  .eliminated-pieces ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    padding: 0;
+  }
+
+  .eliminated-pieces li {
+    margin: 5px; 
+  }
 }
